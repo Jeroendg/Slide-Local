@@ -1,6 +1,6 @@
 """Constants for the Slide Local integration."""
 
-DOMAIN = "slide_local"
+DOMAIN = "slide"
 ATTR_TOUCHGO = "Touch & Go"
 ATTR_CALIB_TIME = "Calibration Time"
 COMPONENT = "cover"
