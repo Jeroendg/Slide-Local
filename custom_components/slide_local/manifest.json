@@ -1,5 +1,5 @@
 {
-  "domain": "slide",
+  "domain": "slide_local",
   "name": "Slide Local",
   "codeowners": ["@Jeroendg"],
   "config_flow": true,
