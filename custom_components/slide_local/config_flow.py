@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 DATA_SCHEMA = vol.Schema({vol.Required("name"): str, vol.Required("host"): str, vol.Required("id"): str})
 
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
-    regex_ipv4 = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+    regex_ipv4 = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
     regex_id = "^[A-Za-z0-9]{8}$"
 
     if not re.match(regex_ipv4, data["host"]):
