@@ -9,7 +9,7 @@ import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.cover import (ATTR_POSITION, SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP, DEVICE_CLASS_CURTAIN, PLATFORM_SCHEMA, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, CoverEntity)
+from homeassistant.components.cover import (ATTR_POSITION, CoverEntityFeature.CLOSE, CoverEntityFeature.OPEN, CoverEntityFeature.SET_POSITION, CoverEntityFeature.STOP, DEVICE_CLASS_CURTAIN, PLATFORM_SCHEMA, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, CoverEntity)
 from homeassistant.const import ATTR_ID, CONF_NAME, CONF_HOST, CONF_ID, CONF_MAC
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback, DiscoveryInfoType
@@ -40,7 +40,7 @@ class LocalSlide(CoverEntity):
     """Representation of a Slide"""
     _attr_has_entity_name = True
     should_poll = True
-    supported_features = SUPPORT_SET_POSITION | SUPPORT_OPEN | SUPPORT_CLOSE | SUPPORT_STOP
+    supported_features = CoverEntityFeature.SET_POSITION | CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
 
     def __init__(self, cover) -> None:
         """Initialize Slide"""
