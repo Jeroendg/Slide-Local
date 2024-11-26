@@ -99,7 +99,7 @@ class LocalSlide(CoverEntity):
     @property
     def device_class(self):
         """Return the device class of the cover."""
-        return DEVICE_CLASS_CURTAIN
+        return CoverDeviceClass.CURTAIN
 
     @property
     def current_cover_position(self):
