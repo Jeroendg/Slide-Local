@@ -108,12 +108,12 @@ class LocalSlide(CoverEntity):
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the cover."""
-        self._state = OPENING
+        self._state = CoverState.OPENING
         await self._cover.set_position(100)
 
     async def async_close_cover(self, **kwargs: Any) -> None:
         """Close the cover."""
-        self._state = CLOSING
+        self._state = CoverState.CLOSING
         await self._cover.set_position(0)
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
