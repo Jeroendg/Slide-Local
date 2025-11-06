@@ -9,7 +9,7 @@ import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, CoverEntity, CoverDeviceClass)
+from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CLOSED, CLOSING, OPEN, OPENING, CoverEntity, CoverDeviceClass)
 from homeassistant.const import ATTR_ID, CONF_NAME, CONF_HOST, CONF_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback, DiscoveryInfoType
@@ -69,9 +69,9 @@ class Curtain:
         self._moving = False
 
         if self.parse_to_api(self._current_position) > 1 - OFFSET:
-            self._state = STATE_CLOSED
+            self._state = CLOSED
         else:
-            self._state = STATE_OPEN
+            self._state = OPEN
 
     @property
     def curtain_id(self) -> str:
@@ -131,18 +131,18 @@ class Curtain:
                 # Determine cover state based on position
                 if abs(self._target_position - self._current_position) > (OFFSET * 100) and self._moving:
                     if self._target_position > self._current_position:
-                        self._state = STATE_OPENING
+                        self._state = OPENING
                     else:
-                        self._state = STATE_CLOSING
+                        self._state = CLOSING
                 else:
                     if new_api_position > 1 - OFFSET:
-                        self._state = STATE_CLOSED
+                        self._state = CLOSED
                     elif new_api_position == old_api_position and new_api_position <= 1 - OFFSET:
-                        self._state = STATE_OPEN
+                        self._state = OPEN
                     elif new_api_position < old_api_position:
-                        self._state = STATE_OPENING
+                        self._state = OPENING
                     else:
-                        self._state = STATE_CLOSING
+                        self._state = CLOSING
 
                 if old_api_position == new_api_position:
                     self._moving = False
