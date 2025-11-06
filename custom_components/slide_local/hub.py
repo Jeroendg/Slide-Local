@@ -9,7 +9,7 @@ import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CoverEntity, CoverDeviceClass)
+from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CoverState, CoverEntity, CoverDeviceClass)
 from homeassistant.const import ATTR_ID, CONF_NAME, CONF_HOST, CONF_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback, DiscoveryInfoType
