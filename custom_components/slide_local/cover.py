@@ -9,7 +9,7 @@ import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CLOSED, CLOSING, OPEN, OPENING, CoverEntity, CoverEntityFeature, CoverDeviceClass)
+from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CoverEntity, CoverEntityFeature, CoverDeviceClass)
 from homeassistant.const import ATTR_ID, CONF_NAME, CONF_HOST, CONF_ID, CONF_MAC
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback, DiscoveryInfoType
@@ -72,19 +72,19 @@ class LocalSlide(CoverEntity):
     @property
     def is_opening(self):
         """Return if the cover is opening or not."""
-        return self._state == OPENING
+        return self._state == CoverState.OPENING
 
     @property
     def is_closing(self):
         """Return if the cover is closing or not."""
-        return self._state == CLOSING
+        return self._state == CoverState.CLOSING
 
     @property
     def is_closed(self):
         """Return None if status is unknown, True if closed, else False."""
         if self._state is None:
             return None
-        return self._state == CLOSED
+        return self._state == CoverState.CLOSED
 
     @property
     def available(self) -> bool:
