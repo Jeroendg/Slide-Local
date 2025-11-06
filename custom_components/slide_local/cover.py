@@ -9,7 +9,7 @@ import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING, CoverEntity, CoverEntityFeature, CoverDeviceClass)
+from homeassistant.components.cover import (ATTR_POSITION, PLATFORM_SCHEMA, CLOSED, CLOSING, OPEN, OPENING, CoverEntity, CoverEntityFeature, CoverDeviceClass)
 from homeassistant.const import ATTR_ID, CONF_NAME, CONF_HOST, CONF_ID, CONF_MAC
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback, DiscoveryInfoType
@@ -72,19 +72,19 @@ class LocalSlide(CoverEntity):
     @property
     def is_opening(self):
         """Return if the cover is opening or not."""
-        return self._state == STATE_OPENING
+        return self._state == OPENING
 
     @property
     def is_closing(self):
         """Return if the cover is closing or not."""
-        return self._state == STATE_CLOSING
+        return self._state == CLOSING
 
     @property
     def is_closed(self):
         """Return None if status is unknown, True if closed, else False."""
         if self._state is None:
             return None
-        return self._state == STATE_CLOSED
+        return self._state == CLOSED
 
     @property
     def available(self) -> bool:
@@ -108,12 +108,12 @@ class LocalSlide(CoverEntity):
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the cover."""
-        self._state = STATE_OPENING
+        self._state = OPENING
         await self._cover.set_position(100)
 
     async def async_close_cover(self, **kwargs: Any) -> None:
         """Close the cover."""
-        self._state = STATE_CLOSING
+        self._state = CLOSING
         await self._cover.set_position(0)
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
