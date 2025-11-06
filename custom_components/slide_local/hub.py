@@ -69,9 +69,9 @@ class Curtain:
         self._moving = False
 
         if self.parse_to_api(self._current_position) > 1 - OFFSET:
-            self._state = CLOSED
+            self._state = CoverState.CLOSED
         else:
-            self._state = OPEN
+            self._state = CoverState.OPEN
 
     @property
     def curtain_id(self) -> str:
@@ -131,18 +131,18 @@ class Curtain:
                 # Determine cover state based on position
                 if abs(self._target_position - self._current_position) > (OFFSET * 100) and self._moving:
                     if self._target_position > self._current_position:
-                        self._state = OPENING
+                        self._state = CoverState.OPENING
                     else:
-                        self._state = CLOSING
+                        self._state = CoverState.CLOSING
                 else:
                     if new_api_position > 1 - OFFSET:
-                        self._state = CLOSED
+                        self._state = CoverState.CLOSED
                     elif new_api_position == old_api_position and new_api_position <= 1 - OFFSET:
-                        self._state = OPEN
+                        self._state = CoverState.OPEN
                     elif new_api_position < old_api_position:
-                        self._state = OPENING
+                        self._state = CoverState.OPENING
                     else:
-                        self._state = CLOSING
+                        self._state = CoverState.CLOSING
 
                 if old_api_position == new_api_position:
                     self._moving = False
