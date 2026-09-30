@@ -103,6 +103,10 @@ class Curtain:
         """Calibrate the cover."""
         await self._cover.slide_calibrate()
 
+    async def stop(self) -> None:
+        """Stop the cover."""
+        await self._cover.slide_stop()
+
     @property
     def online(self) -> bool:
         """Cover state"""
