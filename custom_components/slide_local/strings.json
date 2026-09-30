@@ -1,4 +1,11 @@
 {
+  "entity": {
+    "button": {
+      "calibrate": {
+        "name": "Calibrate"
+      }
+    }
+  },
   "config": {
     "step": {
       "user": {
