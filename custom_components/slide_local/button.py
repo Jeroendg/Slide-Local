@@ -28,6 +28,7 @@ class SlideLocalCalibrationButton(ButtonEntity):
 
     _attr_has_entity_name = True
     _attr_translation_key = "calibrate"
+    _attr_should_poll = True
 
     def __init__(self, curtain: Curtain) -> None:
         """Initialize the calibration button."""

@@ -97,3 +97,14 @@ async def test_button_press_calls_calibrate(button, mock_curtain):
     await button.async_press()
 
     mock_curtain.calibrate.assert_awaited_once_with()
+
+
+def test_button_should_poll_is_true(button):
+    """Regression test: button must participate in HA polling so its
+    available property is periodically re-evaluated from shared Curtain.online.
+
+    Before the fix, ButtonEntity.should_poll defaults to False and the button
+    stays unavailable forever after HA writes the initial state — even though
+    the cover's polling has already updated Curtain.online to True.
+    """
+    assert button.should_poll is True
