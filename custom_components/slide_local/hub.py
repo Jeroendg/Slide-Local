@@ -103,6 +103,7 @@ class Curtain:
         """Calibrate the cover."""
         await self._cover.slide_calibrate()
 
+    @property
     def online(self) -> bool:
         """Cover state"""
         return self._online

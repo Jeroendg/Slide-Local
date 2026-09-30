@@ -1,4 +1,11 @@
 {
+    "entity": {
+        "button": {
+            "calibrate": {
+                "name": "Calibrate"
+            }
+        }
+    },
     "config": {
         "abort": {
             "no_devices_found": "No devices found on the network",
