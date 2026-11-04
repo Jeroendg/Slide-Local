@@ -59,6 +59,12 @@ After calibration, the cover entity's position should accurately reflect the phy
 - **Cover position wrong after calibration:** Run the calibration button again. If the issue persists, check that the Slide device firmware is up to date.
 - **Entity shows unavailable:** The Slide device may be offline or the IP address may have changed. Check your router's DHCP lease table.
 
+## Maintainer releases
+
+1. Bump the `version` in `custom_components/slide_local/manifest.json` and merge that change to `main`.
+2. Run the **Release** workflow from GitHub Actions with an input version matching the manifest.
+3. HACS will detect the published GitHub release as an available update.
+
 ## License
 
 This project is licensed under the [GNU General Public License v3 (GPLv3)](LICENSE).
