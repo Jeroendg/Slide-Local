@@ -9,10 +9,10 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Check out commit
@@ -23,25 +23,50 @@ jobs:
         with:
           category: integration
 
-      - name: Validate version and release absence
+      - name: Validate version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          manifest_version="$(jq -er '.version | strings' custom_components/slide_local/manifest.json)"
+          semver_regex='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+          if [[ ! "$INPUT_VERSION" =~ $semver_regex ]]; then
+            echo "Input version '$INPUT_VERSION' is not a safe SemVer version (X.Y.Z with optional prerelease/build metadata)." >&2
+            exit 1
+          fi
+          if [[ "$INPUT_VERSION" != "$manifest_version" ]]; then
+            echo "Input version '$INPUT_VERSION' does not match manifest version '$manifest_version'." >&2
+            exit 1
+          fi
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out validated commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Check for existing release
         env:
           INPUT_VERSION: ${{ inputs.version }}
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          manifest_version="$(jq -er '.version | strings' custom_components/slide_local/manifest.json)"
-          if [[ "$INPUT_VERSION" != "$manifest_version" ]]; then
-            echo "Input version '$INPUT_VERSION' does not match manifest version '$manifest_version'." >&2
-            exit 1
-          fi
-          if gh release view "$INPUT_VERSION" >/dev/null 2>&1; then
+          if response="$(gh api --include "repos/$GH_REPO/releases/tags/$INPUT_VERSION" 2>&1)"; then
             echo "A release for '$INPUT_VERSION' already exists." >&2
             exit 1
-          fi
-          if git ls-remote --exit-code --tags origin "refs/tags/$INPUT_VERSION" >/dev/null 2>&1; then
-            echo "A tag for '$INPUT_VERSION' already exists." >&2
-            exit 1
+          else
+            status="$(printf '%s\n' "$response" | sed -nE 's/^HTTP\/[0-9.]+ 404([[:space:]].*)?$/404/p' | head -n 1)"
+            if [[ "$status" != 404 ]]; then
+              echo "Could not reliably check whether release '$INPUT_VERSION' exists:" >&2
+              printf '%s\n' "$response" >&2
+              exit 1
+            fi
           fi
 
       - name: Create GitHub release
